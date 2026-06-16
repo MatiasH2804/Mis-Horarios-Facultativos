@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Horarios</title>
+  <link rel="icon" type="image/png" href="https://static.vecteezy.com/system/resources/thumbnails/071/048/140/small/subscription-time-soft-3d-illustration-png.png" />
+<link rel="apple-touch-icon" href="https://static.vecteezy.com/system/resources/thumbnails/071/048/140/small/subscription-time-soft-3d-illustration-png.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <section class="app-card">
+      <header class="app-header">
+        <div class="title-block">
+          <span class="eyebrow">Matías Henquín</span>
+          <h1 id="tituloPrincipal">Horarios de mi cuatrimestre</h1>
+        </div>
+        <div class="header-actions">
+          <button class="btn secondary" id="btnTema" type="button" aria-label="Alternar modo claro u oscuro">Modo oscuro</button>
+          <button class="btn secondary" type="button" onclick="window.print()">Imprimir / PDF</button>
+        </div>
+      </header>
+
+      <section class="layout-grid">
+        <article class="panel panel-horario">
+          <div class="section-title-row">
+            <h2>Horario semanal</h2>
+          </div>
+
+          <div class="table-wrap">
+            <table class="schedule-table" id="tablaHorarios">
+              <thead>
+                <tr>
+                  <th>Hora</th>
+                  <th>Lunes</th>
+                  <th>Martes</th>
+                  <th>Miércoles</th>
+                  <th>Jueves</th>
+                  <th>Viernes</th>
+                </tr>
+              </thead>
+              <tbody id="scheduleBody"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <aside class="panel side-panel">
+          <section class="side-tool">
+            <div class="section-title-row compact">
+              <h2>Editar celda seleccionada</h2>
+            </div>
+            <p class="tool-copy">Elegí una celda de la tabla para modificarla.</p>
+
+            <form id="formCelda" class="form-grid">
+              <div class="selected-cell-box">
+                <span>Celda seleccionada</span>
+                <strong id="cellEditorBadge">Ninguna</strong>
+              </div>
+
+              <p class="editor-empty" id="editorEmpty">Hacé clic en una celda del horario para cargar, cambiar o limpiar una materia.</p>
+
+              <label>
+                Materia
+                <select id="selectCeldaMateria" disabled></select>
+              </label>
+
+              <label>
+                Tipo de clase
+                <select id="selectCeldaTipo" disabled></select>
+              </label>
+
+              <label>
+                Aula específica
+                <input id="inputCeldaAula" type="text" placeholder="Usa el aula predeterminada" disabled />
+                <small class="field-help" id="aulaCeldaHelp">Si queda vacío, se usa el aula predeterminada de la materia.</small>
+              </label>
+
+              <div class="button-row">
+                <button class="btn primary" id="btnGuardarCelda" type="submit" disabled>Guardar cambios</button>
+                <button class="btn danger" id="btnLimpiarCelda" type="button" disabled>Limpiar celda</button>
+              </div>
+            </form>
+          </section>
+
+          <div class="divider"></div>
+
+          <section class="side-tool side-tool-secondary">
+            <div class="section-title-row compact">
+              <h2>Cargar bloque horario</h2>
+            </div>
+            <p class="tool-copy">Usá esto para cargar varias horas seguidas.</p>
+
+            <form id="formBloque" class="form-grid">
+              <label>
+                Materia
+                <select id="selectMateria"></select>
+              </label>
+
+              <label>
+                Tipo de clase
+                <select id="selectBloqueTipo"></select>
+              </label>
+
+              <label>
+                Día
+                <select id="selectDia">
+                  <option value="Lunes">Lunes</option>
+                  <option value="Martes">Martes</option>
+                  <option value="Miércoles">Miércoles</option>
+                  <option value="Jueves">Jueves</option>
+                  <option value="Viernes">Viernes</option>
+                </select>
+              </label>
+
+              <label>
+                Desde
+                <select id="selectDesde"></select>
+              </label>
+
+              <label>
+                Hasta
+                <select id="selectHasta"></select>
+              </label>
+
+              <label>
+                Aula específica opcional
+                <input id="inputAulaBloque" type="text" placeholder="Usa el aula predeterminada" />
+                <small class="field-help" id="aulaBloqueHelp">Si queda vacío, se usa el aula predeterminada de la materia.</small>
+              </label>
+
+              <button type="submit" class="btn primary full">Cargar bloque</button>
+            </form>
+          </section>
+        </aside>
+      </section>
+
+      <section class="layout-grid bottom-grid">
+        <article class="panel">
+          <div class="section-title-row panel-heading-action">
+            <h2>Materias y aulas</h2>
+            <button class="btn primary panel-action" id="btnAgregarMateria" type="button">+ Materia</button>
+          </div>
+
+          <div class="table-wrap small-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Materia</th>
+                  <th>Aula predeterminada</th>
+                  <th>Color</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="materiasBody"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="section-title-row panel-heading-action">
+            <h2>Docentes y mails</h2>
+            <button class="btn secondary panel-action" id="btnAgregarDocente" type="button">+ Contacto</button>
+          </div>
+
+          <div class="table-wrap small-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Contacto</th>
+                  <th>Detalle</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="docentesBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section class="advanced-options">
+        <details>
+          <summary>Opciones avanzadas</summary>
+          <button class="btn danger small" id="btnLimpiar" type="button">Restaurar ejemplo</button>
+        </details>
+      </section>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
